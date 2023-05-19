@@ -8,28 +8,38 @@ namespace SpecFlowPOC.Specs.StepDefinitions
     [Binding]
     public class StepDefinitions
     {
-        private Person lucy = new Person("Lucy");
-        private Person sean = new Person("Sean");
-
+        //private Person lucy = new Person("Lucy");
+        //private Person sean = new Person("Sean");
         private string messageFromSean;
+        private Network network;
+        private Dictionary<string, Person> people;
 
-        [Given(@"Lucy is located (.*)m from Sean")]
-        public void GivenLucyIsLocatedMFromSean( int distance)
-        { 
-            lucy.MoveTo(distance);
+        [BeforeScenario]
+        public void CreateNetwork()
+        {
+            network = new Network();
+            people = new Dictionary<string, Person>();
         }
+
+        [Given(@"a person named {word}")]
+        public void GivenAPersonNamedLucy(string name)
+        {
+            people.Add(name, new Person(network));
+        }
+
+        
 
         [When(@"Sean shouts ""(.*)""")]
         public void WhenSeanShouts(string message)
         {
-            sean.Shouts(message);
+            people["Sean"].Shouts(message);
             messageFromSean = message;
         }
 
         [Then(@"Lucy hears Sean's message")]
         public void ThenLucyHearsSeansMessage()
         {
-            Assert.Contains(messageFromSean, lucy.GetMessagesHeard());
+            Assert.Contains(messageFromSean, people["Lucy"].GetMessagesHeard());
         }
     }
 }

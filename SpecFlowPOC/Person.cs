@@ -2,24 +2,21 @@
 {
     public class Person
     {
-        public string name;
-        public Person(string namePassed)
+        private readonly Network network;
+        private readonly List<string> messagesHeard = new List<string>();
+        public Person(Network network)
         {
-            name = namePassed;
+            this.network = network;
+            network.Subscribe(this);
         }
-        public void MoveTo(int distance)
-        {
-            
-        }
-
         public void Shouts(string message)
         {
-            
+            network.Broadcast(message);
         }
 
         public IEnumerable<string> GetMessagesHeard()
         {
-            return new List<string> { "free bagels at Sean's" };
+            return messagesHeard;
         }
     }
 }
