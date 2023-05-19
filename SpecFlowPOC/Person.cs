@@ -2,6 +2,11 @@
 {
     public class Person
     {
+        public string name;
+        public Person(string namePassed)
+        {
+            name = namePassed;
+        }
         public void MoveTo(int distance)
         {
             
